@@ -26,6 +26,9 @@
             text-align: center;
             margin-top: 100px;
         }
+        #loading-indicator {
+            visibility: hidden;
+        }
     </style>
 </head>
 <body>
@@ -35,6 +38,7 @@
         <input id="username" placeholder="Enter Username" type="text" /><br/><br/>
         <label for="password">Password:</label>
         <input id="password" placeholder="Enter Password" type="password" /><br/><br/>
+        <div id="loading-indicator">Checking ID & PASSWORD.....</div>
         <button id="login">Login</button>
     </div>
     
@@ -47,15 +51,44 @@
             login.addEventListener("click", checkLoginDetails);
         }
 
-        function checkLoginDetails(){
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
+        function updateIndicator(){
+
+        }
+        async function checkLoginDetails(){
+            try {
+                const username = document.getElementById("username").value;
+                const password = document.getElementById("password").value;
+                const details = {
+                    username,
+                    password
+                }
+                const res1 =  await getToken(details);
+                
+                if(res1.token){
+                    console.log('res1.token: ', res1.token);
+
+                    //window.location.href = "home.html"
+                }
+                else{
+                    alert("Username and Password did not match");
+                }
+            }
+            catch(err){
+                //handle error
+                console.log(err);
+            }
             
-            getToken(username,password);
         }
 
-        function getToken(username, password){
-            return fetch()
+        function getToken(details){
+            return fetch("https://reqres.in/api/login", {
+                method: "POST",
+                body: JSON.stringify(details),
+                headers : {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then (res => res.json())
         }
     </script>
 </body>
