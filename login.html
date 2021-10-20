@@ -34,8 +34,11 @@
 <body>
     <h1>Login Page</h1>
     <div id="container">
-        <label for="username">Username:</label>
-        <input id="username" placeholder="Enter Username" type="text" /><br/><br/>
+        <!-- type user name as given below to check the app working -->
+        <!-- username/email is ==> "eve.holt@reqres.in" 
+        password is of your choice -->
+        <label for="username">Username/Email:</label>
+        <input id="username" placeholder="Enter Username / Email" type="text" /><br/><br/>
         <label for="password">Password:</label>
         <input id="password" placeholder="Enter Password" type="password" /><br/><br/>
         <div id="loading-indicator">Checking ID & PASSWORD.....</div>
@@ -66,8 +69,8 @@
                 
                 if(res1.token){
                     console.log('res1.token: ', res1.token);
-
-                    //window.location.href = "home.html"
+                    alert("Login Succesful, Redirecting you to the HOME PAGE")
+                    window.location.href = "home.html"
                 }
                 else{
                     alert("Username and Password did not match");

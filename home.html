@@ -5,9 +5,82 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
+    <style>
+        * {
+            margin: 0;
+        }
+        h1 {
+            text-align: center;
+            color: violet;
+
+        }
+        #container {
+            border: 2px dotted gold;
+            width: 400px;
+            height: 150px;
+            margin: auto;
+            margin-top: 100px;
+            padding: 50px;
+        }
+        #container button {
+            margin-left: 100px;
+        }
+        #resultsDisplayed {
+            width: 500px;
+            border: 5px solid sienna;
+            margin: auto;
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
     <h1>HOME PAGE</h1>
-    
+    <div id="container">
+        <label for="gitName">Name :</label>
+        <input id="gitName"  placeholder="Name to search on gitHub"/><br/><br/>
+        <button id="search">Search Name</button>
+    </div>
+    <div id="resultsDisplayed"></div>
+
+    <script type="text/javascript">
+
+        window.addEventListener("load", start);
+
+        function start(){
+            const login = document.getElementById("search");
+            login.addEventListener("click", searchFast);
+        }
+
+        async function searchFast(){
+            const name = document.getElementById("gitName").value;
+            //console.log('name: ', name);
+            const data = await getResults(name);
+            if(data.incomplete_results === false && data.total_count > 0){
+                displayNames(data.items);
+                console.log(data.items);
+
+            }
+            else{
+                console.log("Not found");
+            }
+
+        }
+
+        function getResults(name){
+            return fetch(`https://api.github.com/search/users?q=${name}`)
+            .then (res => res.json())
+        }
+
+        function displayNames(items){
+            const disp = document.getElementById("resultsDisplayed");
+
+            for(i of items ){
+                var userName = document.createElement("p");
+                userName.textContent = items[i];
+                console.log(userName);
+                userName.append(disp);
+            }
+        }
+    </script>
 </body>
 </html>
